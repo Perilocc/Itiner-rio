@@ -1,5 +1,7 @@
 import pyautogui as gui
 from openpyxl import load_workbook
+import time
+import pyperclip  # Piperclip para pegar acentuação
 
 def extrair_dados():
     file_path =  "C:/Users/Perilo/OneDrive/Documentos/Python/Estoque/Produtos.xlsx"
@@ -22,11 +24,61 @@ def extrair_dados():
         }
         
         lista_dicts.append(dados)
-    print(lista_dicts)
-
+    print(lista_dicts)    
+    return lista_dicts
+    
 dados = extrair_dados()
 
 def automatizacao(dados):
-    for dado in dados:
+    for i, dado in enumerate(dados):
         
-        pass
+        nome = dado["nome"]
+        descricao = dado["descricao"]
+        qtd = dado["qtd"]
+        custo = dado["custo"]
+        preco = dado["preco"]
+        
+        
+        print(f"\nProduto: {i+1}")
+        print(f"Nome: {nome}, Descrição: {descricao}, Custo: {custo}, Preço: {preco}, Quantidade: {qtd}")
+        
+        time.sleep(5)
+        if i == 0:
+            gui.hotkey('alt', 'tab')
+            time.sleep(2)
+        
+        gui.press('tab')
+        gui.press('enter')
+        gui.click()
+        time.sleep(2)
+        
+        gui.press('tab')
+        pyperclip.copy(nome)
+        gui.hotkey('ctrl', 'v')
+        time.sleep(1)
+
+        gui.press('tab')
+        pyperclip.copy(descricao)
+        gui.hotkey('ctrl', 'v')
+        time.sleep(1)
+
+        gui.press('tab')
+        pyperclip.copy(str(custo))
+        gui.hotkey('ctrl', 'v')
+        time.sleep(1)
+
+        gui.press('tab')
+        pyperclip.copy(str(preco))
+        gui.hotkey('ctrl', 'v')
+        time.sleep(2)
+
+        gui.press('tab')
+        pyperclip.copy(str(qtd))
+        gui.hotkey('ctrl', 'v')
+        time.sleep(1)
+        
+        gui.press('tab')
+        gui.press('enter')
+    print("Todos os itens foram Cadastrados")
+
+automatizacao(dados)
