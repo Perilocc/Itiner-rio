@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% if object.pk %}Editar{% else %}Cadastrar{% endif %} Produto - Casa Amarela</title>
+    <!-- Adicionando o CSS do Bootstrap -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1 class="my-4 text-center">{% if object.pk %}Editar{% else %}Cadastrar{% endif %} Produto</h1>
+        
+        <!-- Formulário para criar ou editar produto -->
+        <form method="POST" action="{% if object.pk %}{% url 'produto-edit' object.pk %}{% else %}{% url 'produto-add' %}{% endif %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="id_nome">Nome do Produto</label>
+                <input type="text" class="form-control" id="id_nome" name="nome" value="{{ form.nome.value|default:'' }}" required>
+            </div>
+            <div class="form-group">
+                <label for="id_descricao">Descrição</label>
+                <input type="text" class="form-control" id="id_descricao" name="descricao" value="{{ form.descricao.value|default:'' }}" required>
+            </div>
+            <div class="form-group">
+                <label for="id_custo">Custo do Produto</label>
+                <input type="number" class="form-control" id="id_custo" name="custo" value="{{ form.custo.value|default:'' }}" required>
+            </div>
+            <div class="form-group">
+                <label for="id_preco_venda">Preço de Venda</label>
+                <input type="number" class="form-control" id="id_preco_venda" name="preco_venda" value="{{ form.preco_venda.value|default:'' }}" required>
+            </div>
+            <div class="form-group">
+                <label for="id_qtd">Quantidade</label>
+                <input type="number" class="form-control" id="id_qtd" name="qtd" value="{{ form.qtd.value|default:'' }}" required>
+            </div>
+            <button type="submit" class="btn btn-success">
+                {% if object.pk %}Salvar Alterações{% else %}Cadastrar{% endif %}
+            </button>
+            <a href="{% url 'produto-list' %}" class="btn btn-secondary">Voltar</a>
+        </form>
+    </div>
+</body>
+</html>

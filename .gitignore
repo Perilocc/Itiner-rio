@@ -1,0 +1,54 @@
+# Diretórios de ambiente virtual
+venv/
+.env/
+env/
+.venv/
+
+# Compilação de arquivos Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pyd
+*.pyo
+*.pdb
+
+# Arquivos de configuração do IDE
+.vscode/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.suo
+*.sln
+
+# Arquivos de configuração do sistema
+.DS_Store
+Thumbs.db
+
+# Arquivos de log
+*.log
+
+# Arquivos de banco de dados
+*.sqlite3
+*.db
+*.db-journal
+
+# Outras pastas e arquivos a ignorar
+*.egg
+*.egg-info/
+dist/
+build/
+*.tar.gz
+*.zip
+
+# Arquivos temporários
+*.tmp
+*.swp
+*.swo
+
+# Configurações de testes
+.coverage
+nosetests.xml
+test_*.xml
+coverag
