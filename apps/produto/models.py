@@ -1,4 +1,8 @@
+from decimal import Decimal
 from django.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
+
+PERCENTAGE_VALIDATOR = [MinValueValidator(0), MaxValueValidator(100)]
 
 class Produto(models.Model):
     
@@ -32,6 +36,23 @@ class Produto(models.Model):
         default=0,
     )
     
+    lucro = models.DecimalField(
+        "Lucro por Produto",
+        editable=False,
+        max_digits=10, 
+        decimal_places=2,
+        blank=True
+    )
+    
+    margem_liquida = models.DecimalField(
+        "Margem Líquida",
+        max_digits=3, 
+        decimal_places=0, 
+        default=Decimal(0), 
+        validators=PERCENTAGE_VALIDATOR,
+        editable=False,
+    )
+
     class Meta:
         verbose_name = 'Produto'
         verbose_name_plural = 'Produtos'
@@ -39,3 +60,8 @@ class Produto(models.Model):
     def __str__(self):
         
         return self.nome and self.descricao
+    
+    def save(self, *args, **kwargs):
+        self.lucro = self.preco_venda - self.custo
+        self.margem_liquida = (self.lucro/self.preco_venda) * 100
+        super(Produto, self).save(*args, **kwargs)

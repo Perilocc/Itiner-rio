@@ -18,7 +18,7 @@
         <ul class="list-group">
             {% for produto in produtos %}
                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                    {{ produto.nome }} - {{ produto.descricao }} - {{ produto.custo }} - {{ produto.preco_venda }} - {{ produto.qtd }}
+                    {{ produto.nome }} - {{ produto.descricao }} - {{ produto.qtd }} unidades - R$ {{ produto.custo }} - R$ {{ produto.preco_venda }} - R$ {{ produto.lucro }} - {{ produto.margem_liquida|floatformat:2 }}%
                     <div class="btn-group" role="group">
                         <a href="{% url 'produto-edit' produto.id %}" class="btn btn-warning btn-sm">
                             <i class="fas fa-edit"></i>
