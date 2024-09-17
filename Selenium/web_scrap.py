@@ -1,3 +1,4 @@
+import os
 import time
 import requests
 from io import BytesIO
@@ -5,6 +6,7 @@ from selenium import webdriver
 from PIL import Image as PILImage
 from openpyxl import load_workbook
 from input import obter_lista_produtos
+from FuncImage import add_image_to_cell
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.edge.service import Service
@@ -12,6 +14,7 @@ from selenium.webdriver.edge.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from openpyxl.drawing.image import Image as OpenpyxlImage
 from selenium.webdriver.support import expected_conditions as EC
+
 
 # Função para obter a lista de produtos
 produtos = obter_lista_produtos()
@@ -44,13 +47,19 @@ for i, produto in enumerate(produtos):
         input_box.clear()
         input_box.send_keys(produto + Keys.RETURN)
         
-        # Espera o primeiro resultado carregar e clica nele
+        time.sleep(5)
+        
         WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.CSS_SELECTOR, ".ui-search-result__content-wrapper"))
-        )
-        primeiro_produto = driver.find_element(By.CSS_SELECTOR, ".ui-search-result__content-wrapper")
-        primeiro_produto.click()
-        time.sleep(3)
+        ).click()
+            
+        try: 
+            time.sleep(2)
+            WebDriverWait(driver, 10).until(
+                EC.presence_of_element_located((By.CSS_SELECTOR, ".ui-search-item__group--title a"))
+            ).click()
+        except: 
+            pass
 
         # Obtém título e preço
         titulo = WebDriverWait(driver, 10).until(
@@ -78,16 +87,7 @@ for i, produto in enumerate(produtos):
             img_data = buffer.getvalue()
             img_pil = PILImage.open(BytesIO(img_data))  # Reabre a imagem após a conversão para PNG
 
-        # Verifica se a imagem é suportada pelo Excel
-        if img_pil.format in ["PNG", "JPEG", "JPG"]:
-            # Converte os bytes da imagem para o formato Openpyxl
-            img = OpenpyxlImage(BytesIO(img_data))
-            img.width = 100
-            img.height = 100
-            img.anchor = f"C{i+2}"  # Define onde a imagem será inserida
-            sheet.add_image(img)
-        else:
-            sheet[f'C{i+2}'] = "Formato de imagem não suportado"
+        add_image_to_cell(sheet, img_data, col=2, row=i+1, col_span=1, row_span=1)  # Ajusta a imagem corretamente
         
         print(f"Produto: {titulo} | Preço: R${preco} | Imagem: {imagem_url}")
 
@@ -99,7 +99,7 @@ for i, produto in enumerate(produtos):
 
 # Tenta salvar o arquivo Excel
 try:
-    workbook.save("produtos_com_imagens.xlsx")
+    workbook.save("lista_produtos.xlsx")
     print("Arquivo Excel salvo com sucesso.")
 except Exception as e:
     print(f"Erro ao salvar o arquivo Excel: {e}")
