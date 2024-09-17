@@ -1,13 +1,15 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
     <title>Estoque - Casa Amarela</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/products.css' %}">
 </head>
 <body>
     <div class="container">
-        <h1 class="my-4 text-center">Produtos Em Estoque</h1>
+        <h1 class="my-4 text-center teste">Produtos Em Estoque</h1>
 
         <div class="text-center mb-4">
             <a href="{% url 'produto-add' %}" class="btn btn-primary">
@@ -17,16 +19,45 @@
 
         <ul class="list-group">
             {% for produto in produtos %}
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    {{ produto.nome }} - {{ produto.descricao }} - {{ produto.qtd }} unidades - R$ {{ produto.custo }} - R$ {{ produto.preco_venda }} - R$ {{ produto.lucro }} - {{ produto.margem_liquida|floatformat:2 }}%
-                    <div class="btn-group" role="group">
-                        <a href="{% url 'produto-edit' produto.id %}" class="btn btn-warning btn-sm">
-                            <i class="fas fa-edit"></i>
-                        </a>
-                        <br>
-                        <a href="{% url 'produto-delete' produto.pk %}" class="btn btn-danger btn-sm">
-                            <i class="fas fa-trash-alt"></i>
-                        </a>
+                <li class="list-group-item product-card">
+                    <div>
+                        <div class="product-title">
+                            <span>
+                                <h2>{{ produto.nome }}</h2>
+                                <p>{{ produto.descricao }}</p>
+                            </span>
+                            <div class="btn-group" role="group">
+                                <a href="{% url 'produto-edit' produto.id %}" class="btn btn-warning btn-sm">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <br>
+                                <a href="{% url 'produto-delete' produto.pk %}" class="btn btn-danger btn-sm">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="attributte-row">
+                            <div class="attributte-container">
+                                <h3 class="product-attribute">Quantidade:</h3>
+                                <h3>{{ produto.qtd }} unidades</h3>
+                            </div>
+                            <div class="attributte-container">
+                                <h3 class="product-attribute">Preço de Custo:</h3>
+                                <h3>R$ {{ produto.custo }}</h3>
+                            </div>
+                            <div class="attributte-container">
+                                <h3 class="product-attribute">Preço de Venda:</h3>
+                                <h3>R$ {{ produto.preco_venda }}</h3>
+                            </div>
+                            <div class="attributte-container">
+                                <h3 class="product-attribute">Lucro:</h3>
+                                <h3>R$ {{ produto.lucro }}</h3>
+                            </div>
+                            <div class="attributte-container">
+                                <h3 class="product-attribute">Margem Líquida:</h3>
+                                <h3>{{ produto.margem_liquida|floatformat:2 }}%</h3>
+                            </div>
+                        </div>
                     </div>
                 </li>
             {% endfor %}
