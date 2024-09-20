@@ -49,7 +49,7 @@ def automatizacao(dados):
         
         gui.press('tab')
         gui.press('enter')
-        gui.click()
+        gui.click(100,200)
         time.sleep(2)
         
         gui.press('tab')
