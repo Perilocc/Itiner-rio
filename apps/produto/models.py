@@ -38,7 +38,6 @@ class Produto(models.Model):
     
     lucro = models.DecimalField(
         "Lucro por Produto",
-        editable=False,
         max_digits=10, 
         decimal_places=2,
         blank=True
@@ -50,7 +49,6 @@ class Produto(models.Model):
         decimal_places=0, 
         default=Decimal(0), 
         validators=PERCENTAGE_VALIDATOR,
-        editable=False,
     )
 
     class Meta:

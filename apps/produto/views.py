@@ -20,7 +20,7 @@ class ProdutoCreateView(CreateView):
 class ProdutoUpdateView(UpdateView):
     model = Produto
     template_name = 'produto_form.html'  # Nome do template para editar um produto
-    fields = ['nome', 'descricao', 'custo', 'preco_venda', 'qtd', 'lucro', 'margem_liquida']
+    fields = ['nome', 'descricao', 'custo', 'preco_venda', 'qtd']
     success_url = reverse_lazy('produto-list')
 
 # View para excluir um produto
